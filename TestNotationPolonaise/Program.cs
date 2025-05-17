@@ -5,6 +5,117 @@ namespace TestNotationPolonaise
     class Program
     {
         /// <summary>
+        /// Calcul de l'expression en notation polonaise
+        /// </summary>
+        /// <param name="formule"></param>
+        /// <returns></returns>
+        static float Polonaise(string formule)
+        {
+            try
+            {
+                //création d'un tableau de type string contenant les éléments de la formule
+                string[] tab = formule.Split(' ');
+                //creation d'une variable de valeur égale à la taille du tableau
+                int nbCases = tab.Length;
+                //variable de valeur égale à la taille du tableau
+                int k = nbCases;
+
+                //algorithme de calcul
+                while (nbCases > 2)
+                {
+                    //le tableau est parcouru de la fin vers le début
+                    k--;
+
+                    //si le caractere est un calcul
+                    switch (tab[k])
+                    {
+                        case "+":
+                            //calcul de l'addition
+                            tab[k] = (float.Parse(tab[k + 1]) + float.Parse(tab[k + 2])).ToString();
+                            //décalage du tableau
+                            try
+                            {
+                                for (int j = k + 1; j < nbCases - 1; j++)
+                                {
+                                    tab[j] = tab[j + 2];
+                                }
+                            }
+                            catch { }
+                            //prise en compte du nombre de cases restantes
+                            nbCases -= 2;
+                            break;
+
+                        case "-":
+                            //calcul de la soustraction
+                            tab[k] = (float.Parse(tab[k + 1]) - float.Parse(tab[k + 2])).ToString();
+                            //décalage du tableau
+                            try
+                            {
+                                for (int j = k + 1; j < nbCases - 1; j++)
+                                {
+                                    tab[j] = tab[j + 2];
+                                }
+                            }
+                            catch { }
+                            //prise en compte du nombre de cases restantes
+                            nbCases -= 2;
+                            break;
+
+                        case "*":
+                            //calcul de la multiplication
+                            tab[k] = (float.Parse(tab[k + 1]) * float.Parse(tab[k + 2])).ToString();
+                            //décalage du tableau
+                            try
+                            {
+                                for (int j = k + 1; j < nbCases - 1; j++)
+                                {
+                                    tab[j] = tab[j + 2];
+                                }
+                            }
+                            catch { }
+                            //prise en compte du nombre de cases restantes
+                            nbCases -= 2;
+                            break;
+
+                        case "/":
+                            //calcul de la division
+                            tab[k] = (float.Parse(tab[k + 1]) / float.Parse(tab[k + 2])).ToString();
+                            //décalage du tableau
+                            try
+                            {
+                                for (int j = k + 1; j < nbCases - 1; j++)
+                                {
+                                    tab[j] = tab[j + 2];
+                                }
+                            }
+                            catch { }
+                            //prise en compte du nombre de cases restantes
+                            nbCases -= 2;
+                            break;
+                    }
+                }
+
+                //verification de la possibilité du calcul
+                if (tab[0] != "∞" && nbCases <= 1)
+                {
+                    // on renvoie le résultat
+                    return float.Parse(tab[0]);
+                }
+                else
+                {
+                    // si le résultat est infini, on renvoie NaN
+                    return float.NaN;
+                }
+            }
+            // si erreur de conversion, on renvoie NaN
+            catch
+            {
+                return float.NaN;
+            }
+        }
+
+
+        /// <summary>
         /// saisie d'une réponse d'un caractère parmi 2
         /// </summary>
         /// <param name="message">message à afficher</param>
